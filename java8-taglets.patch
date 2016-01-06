@@ -1,0 +1,66 @@
+--- tools/build/src/com/ibm/icu/dev/tool/docs/ICUTaglet.java.orig	2014-11-17 10:11:13.000000000 +0000
++++ tools/build/src/com/ibm/icu/dev/tool/docs/ICUTaglet.java	2014-11-17 16:05:29.453442334 +0000
+@@ -13,8 +13,9 @@
+ 
+ import com.sun.javadoc.Doc;
+ import com.sun.javadoc.Tag;
++import com.sun.tools.doclets.formats.html.markup.RawHtml;
++import com.sun.tools.doclets.internal.toolkit.Content;
+ import com.sun.tools.doclets.internal.toolkit.taglets.Taglet;
+-import com.sun.tools.doclets.internal.toolkit.taglets.TagletOutput;
+ import com.sun.tools.doclets.internal.toolkit.taglets.TagletWriter;
+ 
+ public abstract class ICUTaglet implements Taglet {
+@@ -98,26 +99,26 @@
+                 return toString(tags[0]);
+             }
+         }
+-        return null;
++        return "";
+     }
+ 
+-    public TagletOutput getTagletOutput(Tag tag, TagletWriter writer)
++    public Content getTagletOutput(Tag tag, TagletWriter writer)
+         throws IllegalArgumentException {
+ 
+-        TagletOutput out = writer.getTagletOutputInstance();
+-        out.setOutput(toString(tag));
++        Content out = writer.getOutputInstance();
++        out.addContent(new RawHtml(toString(tag)));
+         return out;
+     }
+ 
+-    public TagletOutput getTagletOutput(Doc holder, TagletWriter writer)
++    public Content getTagletOutput(Doc holder, TagletWriter writer)
+         throws IllegalArgumentException {
+ 
+-        TagletOutput out = writer.getTagletOutputInstance();
++        Content out = writer.getOutputInstance();
+         Tag[] tags = holder.tags(getName());
+         if (tags.length == 0) {
+-            return null;
++            return out;
+         }
+-        out.setOutput(toString(tags[0]));
++        out.addContent(new RawHtml(toString(tags[0])));
+         return out;
+     }
+ 
+@@ -198,7 +199,7 @@
+         }
+ 
+         public String toString(Tag tag) {
+-            return null;
++            return "";
+         }
+     }
+ 
+@@ -245,7 +246,7 @@
+         }
+ 
+         public String toString(Tag tag) {
+-            return null;
++            return "";
+         }
+     }
+ 
